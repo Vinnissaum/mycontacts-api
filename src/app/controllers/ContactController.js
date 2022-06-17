@@ -5,6 +5,7 @@ class ContactController {
     // Lista todos os registros
     const { orderBy } = request.query;
     const contacts = await ContactsRepository.findAll(orderBy);
+
     response.json(contacts);
   }
 
@@ -66,8 +67,8 @@ class ContactController {
       return response.status(400).json({ error: 'This email already has been used' });
     }
 
-    const updatedContact = await ContactsRepository.update({
-      id, name, email, phone, category_id,
+    const updatedContact = await ContactsRepository.update(id, {
+      name, email, phone, category_id,
     });
     response.json(updatedContact);
   }
