@@ -20,20 +20,22 @@ let contacts = [
 ];
 
 class ContactsRepository {
-  findAll() {
-    return new Promise((resolve) => { resolve(contacts); });
+  async findAll() {
+    const rows = await db.query('SELECT * FROM contacts');
+
+    return rows;
   }
 
-  findByEmail(email) {
-    return new Promise((resolve) => {
-      resolve(contacts.find((contact) => contact.email === email));
-    });
+  async findById(id) {
+    const [row] = await db.query('SELECT * FROM contacts WHERE id = $1', [id]);
+
+    return row;
   }
 
-  findById(id) {
-    return new Promise((resolve) => {
-      resolve(contacts.find((contact) => contact.id === id));
-    });
+  async findByEmail(email) {
+    const [row] = await db.query('SELECT * FROM contacts WHERe email = $1', [email]);
+
+    return row;
   }
 
   delete(id) {
