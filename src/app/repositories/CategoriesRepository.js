@@ -7,11 +7,28 @@ class CategoriesRepository {
     return rows;
   }
 
+  async findByName(name) {
+    const [row] = await db.query(`SELECT *
+    FROM categories
+    WHERE name = ($1)`, [name]);
+
+    return row;
+  }
+
   async create({ name }) {
     const [row] = await db.query(`INSERT INTO categories(name)
     VALUES ($1)
     RETURNING *
     `, [name]);
+
+    return row;
+  }
+
+  async update(id, { name }) {
+    const [row] = await db.query(`UPDATE categories
+     SET name = ($1)
+     WHERE id = ($2)
+     `, [name, id]);
 
     return row;
   }
